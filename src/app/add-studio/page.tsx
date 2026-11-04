@@ -83,21 +83,22 @@ export default function AddStudioPage() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
 
     try {
+      setIsSubmitting(true);
       // -------------------------------------------------------------
       // TO SUBMIT TO MONGODB:
       // Hook your API endpoint or Server Action here, e.g.:
       //
-      // const res = await fetch("/api/studios", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(formData),
-      // });
-      // const data = await res.json();
+      const res = await fetch("http://localhost:8000/add-studio", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
       //
       // Upon successful save:
       // 1. Show success toast (e.g. toast.success("Studio added successfully!"))
@@ -325,9 +326,11 @@ export default function AddStudioPage() {
                     Live Photo Preview:
                   </p>
                   <div className="relative aspect-[16/9] w-full sm:w-80 rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                    <img
+                    <Image
                       src={formData.imageUrl}
                       alt="Studio preview"
+                      width={20}
+                      height={20}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = "none";
@@ -375,7 +378,7 @@ export default function AddStudioPage() {
                           : "border-zinc-400 dark:border-zinc-600"
                       }`}
                     >
-                      {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                      {isSelected && <Check className="w-3 h-3 stroke-3" />}
                     </div>
                     <span>{amenity}</span>
                   </button>
