@@ -113,13 +113,10 @@ export default function HeroBanner() {
                       className="object-cover object-center"
                     />
                     {/* Subtle gradient vignette to blend captions */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent" />
                     
                     {/* Slide Caption Overlay */}
                     <div className="absolute bottom-5 left-6 right-6 text-white z-20">
-                      <p className="text-xs font-semibold text-amber-400 tracking-wider uppercase mb-1 drop-shadow-sm">
-                        Hero slide {index + 1} of {totalSlides}: Studio Photo
-                      </p>
                       <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-md">
                         {slide.title}
                       </h3>

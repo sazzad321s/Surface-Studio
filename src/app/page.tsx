@@ -121,7 +121,7 @@ export default function Home() {
               Seamless Workflow
             </span>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-zinc-950 dark:text-white tracking-tight mb-4">
-              How StudioSpace Works
+              How SurfaceStudio Works
             </h2>
             <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg">
               We connect creators directly with studio owners, making high-end production spaces accessible and effortless to book.
@@ -164,7 +164,7 @@ export default function Home() {
                 Built by creators, for the creators pushing culture forward.
               </h2>
               <p className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed">
-                StudioSpace began with a simple frustration: independent filmmakers, photographers, and audio engineers spending hours calling commercial spaces with restrictive lock-in contracts and surprise fees.
+                SurfaceStudio began with a simple frustration: independent filmmakers, photographers, and audio engineers spending hours calling commercial spaces with restrictive lock-in contracts and surprise fees.
               </p>
               <p className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed">
                 Today, our peer-to-peer network gives verified creators direct access to hundreds of private soundstages, cycloramas, and broadcast lounges across the city, while giving studio hosts guaranteed bookings and protected spaces.
