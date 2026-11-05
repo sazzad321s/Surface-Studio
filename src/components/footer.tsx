@@ -20,7 +20,7 @@ export default function Footer() {
                 />
               </div>
               <span className="text-xl font-bold tracking-tight text-zinc-950 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
-                SurfaceStudio
+                Surface<span className="text-orange-400">Studio</span>
               </span>
             </Link>
             <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed max-w-xs">

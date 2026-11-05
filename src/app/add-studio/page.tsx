@@ -18,6 +18,13 @@ import {
   Check
 } from "lucide-react";
 
+
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
+
+
+
 const CATEGORIES = [
   "Photo Studio",
   "Film Stage",
@@ -49,6 +56,7 @@ export default function AddStudioPage() {
     hourlyRate: "",
     securityDeposit: "",
     maxCapacity: "",
+    rating: "",
     location: "",
     imageUrl: "",
     overview: "",
@@ -83,6 +91,8 @@ export default function AddStudioPage() {
     });
   };
 
+  const router = useRouter();
+
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     
@@ -101,8 +111,11 @@ export default function AddStudioPage() {
       const data = await res.json();
       //
       // Upon successful save:
-      // 1. Show success toast (e.g. toast.success("Studio added successfully!"))
-      // 2. router.push("/my-listings");
+      if(data){
+        toast.success("Added succesfull");
+        router.push("/my-listing");
+      }
+      
       // -------------------------------------------------------------
       console.log("Ready to submit to MongoDB:", formData);
       setSubmittedData(formData);
@@ -111,6 +124,7 @@ export default function AddStudioPage() {
     } finally {
       setIsSubmitting(false);
     }
+    
   };
 
   return (
@@ -222,13 +236,13 @@ export default function AddStudioPage() {
           </div>
 
           {/* Section 2: Pricing & Capacity */}
-          <div className="bg-white dark:bg-[#16161a] border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-6 sm:p-8 shadow-sm">
+          <div className="bg-white dark:bg-[#16161a] border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-6 sm:p-6 shadow-sm">
             <h2 className="text-lg font-bold text-zinc-950 dark:text-white mb-6 flex items-center gap-2">
               <DollarSign className="w-5 h-5 text-amber-500" />
               Pricing & Capacity
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
               {/* Hourly Rate */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
@@ -290,6 +304,25 @@ export default function AddStudioPage() {
                   className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition text-sm"
                 />
               </div>
+
+              {/* Rating */}
+                <div>
+                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2 flex items-center gap-1">
+                  
+                  Rating <span className="text-amber-500">*</span>
+                </label>
+                <input
+                  type="double"
+                  min="1"
+                  name="rating"
+                  required
+                  value={formData.rating}
+                  onChange={handleInputChange}
+                  placeholder="out of 5"
+                  className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition text-sm"
+                />
+              </div>
+
             </div>
           </div>
 
@@ -326,7 +359,7 @@ export default function AddStudioPage() {
                     Live Photo Preview:
                   </p>
                   <div className="relative aspect-[16/9] w-full sm:w-80 rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                    <Image
+                    <img
                       src={formData.imageUrl}
                       alt="Studio preview"
                       width={20}
