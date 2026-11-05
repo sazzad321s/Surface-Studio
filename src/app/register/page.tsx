@@ -28,6 +28,22 @@ export default function RegisterPage() {
             </label>
             <input
               type="text"
+              name="name"
+              id="name"
+              required
+              className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition"
+              placeholder="Alex Johnson"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+              Image Url
+            </label>
+            <input
+              type="url"
+              name="image"
+              id="image"
               required
               className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition"
               placeholder="Alex Johnson"
@@ -40,6 +56,8 @@ export default function RegisterPage() {
             </label>
             <input
               type="email"
+              name="email"
+              id="email"
               required
               className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition"
               placeholder="alex@creative.com"
@@ -52,6 +70,8 @@ export default function RegisterPage() {
             </label>
             <input
               type="password"
+              name="password"
+              id="password"
               required
               className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition"
               placeholder="Create a strong password"
