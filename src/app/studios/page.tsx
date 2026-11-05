@@ -339,9 +339,11 @@ export default function StudiosPage() {
                       </div>
 
                       {/* Studio Title */}
-                      <h3 className="text-xl font-bold text-zinc-950 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors line-clamp-1">
-                        {studioTitle}
-                      </h3>
+                      <Link href={`/studios/${studio._id}`} className="block group/link">
+                        <h3 className="text-xl font-bold text-zinc-950 dark:text-white mb-2 group-hover/link:text-amber-500 transition-colors line-clamp-1">
+                          {studioTitle}
+                        </h3>
+                      </Link>
 
                       {/* Studio Overview Preview */}
                       {studio.overview && (
@@ -387,12 +389,12 @@ export default function StudiosPage() {
                       )}
                     </div>
 
-                    <button
-                      type="button"
-                      className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs rounded-xl transition shadow-md shadow-amber-500/10 active:scale-95 cursor-pointer"
+                    <Link
+                      href={`/studios/${studio._id}`}
+                      className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs rounded-xl transition shadow-md shadow-amber-500/10 active:scale-95 text-center inline-block"
                     >
                       Book Space
-                    </button>
+                    </Link>
                   </div>
 
                 </div>
