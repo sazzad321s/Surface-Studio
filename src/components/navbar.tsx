@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./theme-toggle";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -13,13 +15,23 @@ export default function Navbar() {
 
   const isHome = pathname === "/";
   const isStudios = pathname.startsWith("/studios");
+  const isMyListing = pathname.startsWith("/my-listing");
+
+    const {data:session} = authClient.useSession()
+
+  const user = session?.user;
 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Explore Studios", href: "/studios" },
+    ...(user ? [{ name: "My Listing", href: "/my-listing" }] : []),
     { name: "How It Works", href: "/#how-it-works" },
     { name: "About Us", href: "/#about-us" },
   ];
+
+  const handleSignOut = () => {
+    authClient.signOut();
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 dark:bg-[#111113]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800/60 transition-colors duration-200">
@@ -47,7 +59,8 @@ export default function Navbar() {
             {navLinks.map((link) => {
               const active =
                 (link.href === "/" && isHome) ||
-                (link.href === "/studios" && isStudios);
+                (link.href === "/studios" && isStudios) ||
+                (link.href === "/my-listing" && isMyListing);
 
               return (
                 <Link
@@ -71,6 +84,12 @@ export default function Navbar() {
           {/* Desktop Right Controls (Theme Toggle + Auth Buttons) */}
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
+           {
+            user ? <Avatar>
+            <AvatarImage referrerPolicy="no-referrer" src={user?.image as string} />
+             <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+              </Avatar> :
+            <>
             <Link
               href="/login"
               className="px-5 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-950 bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 dark:text-zinc-200 dark:hover:text-white dark:bg-zinc-900/80 dark:hover:bg-zinc-800 dark:border-zinc-800/80 rounded-xl transition duration-150"
@@ -83,6 +102,8 @@ export default function Navbar() {
             >
               Register
             </Link>
+            </>
+           }
           </div>
 
           {/* Mobile Menu & Theme Toggle Buttons */}
@@ -114,7 +135,8 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className={`block px-3 py-2 rounded-lg text-base font-medium ${
                 (link.href === "/" && isHome) ||
-                (link.href === "/studios" && isStudios)
+                (link.href === "/studios" && isStudios) ||
+                (link.href === "/my-listing" && isMyListing)
                   ? "bg-zinc-100 dark:bg-zinc-800/80 text-amber-600 dark:text-amber-400 font-semibold"
                   : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-950 dark:hover:text-white"
               }`}

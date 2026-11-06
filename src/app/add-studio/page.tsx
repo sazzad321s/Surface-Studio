@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -21,6 +21,7 @@ import {
 
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 
 
@@ -50,6 +51,12 @@ const AVAILABLE_AMENITIES = [
 ];
 
 export default function AddStudioPage() {
+
+      const {data:session} = authClient.useSession()
+  
+    const user = session?.user;
+    console.log(user);
+
   const [formData, setFormData] = useState({
     title: "",
     category: "Photo Studio",
@@ -61,10 +68,20 @@ export default function AddStudioPage() {
     imageUrl: "",
     overview: "",
     // Read-only user details (will be populated from your Auth / Session context)
-    userName: "Alex Johnson",
-    userEmail: "alex@studiospace.com",
+    userName: "",
+    userEmail: "",
     amenities: ["Lighting Grid & Softboxes", "High-Speed Wi-Fi (Gigabit)"] as string[],
   });
+
+  useEffect(() => {
+  if (user) {
+    setFormData((prev) => ({
+      ...prev,
+      userName: user.name || "",
+      userEmail: user.email || "",
+    }));
+  }
+}, [user]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedData, setSubmittedData] = useState<typeof formData | null>(null);

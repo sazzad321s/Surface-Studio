@@ -166,7 +166,7 @@ export default function Footer() {
 
         {/* Bottom copyright notice */}
         <div className="mt-12 pt-6 border-t border-zinc-200/60 dark:border-zinc-800/60 text-xs text-zinc-500 dark:text-zinc-500">
-          <p>© 2026 StudioSpace. Terms and Privacy apply.</p>
+          <p>© 2026 SurfaceStudio. Terms and Privacy apply.</p>
         </div>
 
       </div>
