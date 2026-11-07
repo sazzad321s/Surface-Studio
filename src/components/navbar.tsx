@@ -62,9 +62,7 @@ export default function Navbar() {
 
   const handleSignOut = () => {
     authClient.signOut();
-    if(!session){
-      redirect('/');
-    }
+    redirect('/')
   };
 
   return (

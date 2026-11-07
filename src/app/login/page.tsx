@@ -6,7 +6,10 @@ import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
-
+const { data: session } = authClient.useSession();
+if(session){
+  redirect('/');
+}
 
     const handleSignIn = async(e:React.SubmitEvent<HTMLElement>) => {
       e.preventDefault();

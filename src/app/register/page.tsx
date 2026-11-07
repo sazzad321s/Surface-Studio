@@ -7,7 +7,10 @@ import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function RegisterPage() {
-
+const { data: session } = authClient.useSession();
+if(session){
+  redirect('/');
+}
   const handleSignUp = async(e:React.SubmitEvent<HTMLElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target);
