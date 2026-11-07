@@ -69,7 +69,7 @@ export default function MyBookingsPage() {
     let fetchSucceeded = false;
 
     try {
-      const res = await fetch("http://localhost:8000/bookings");
+      const res = await fetch(`http://localhost:8000/my-bookings/${user?.email}`);
       if (res.ok) {
         const data = await res.json();
         const all: BookingPayload[] = Array.isArray(data) ? data : data.bookings || [];
@@ -81,7 +81,7 @@ export default function MyBookingsPage() {
     }
 
     // Merge with any local cache fallback if server is still in setup
-    let combinedBookings: BookingPayload[] = [...serverBookings];
+    const combinedBookings: BookingPayload[] = [...serverBookings];
     try {
       const cached = localStorage.getItem("user_recent_bookings");
       if (cached) {
@@ -161,7 +161,7 @@ export default function MyBookingsPage() {
 
   // Handle Booking Cancellation (only allowed when status is 'pending')
   const handleConfirmCancel = async () => {
-    if (!selectedBookingToCancel) return;
+    if (!selectedBookingToCancel || cancellingId) return;
     const booking = selectedBookingToCancel;
     const targetId = booking._id;
 
@@ -174,32 +174,22 @@ export default function MyBookingsPage() {
     setCancellingId(targetId || "temp");
 
     try {
-      let cancelledOnServer = false;
-
-      // 1. Send cancellation PATCH / DELETE request to server API
+      // 1. Send DELETE request to server API with dynamic id
       if (targetId && !targetId.startsWith("local_")) {
-        try {
-          const res = await fetch(`http://localhost:8000/bookings/${targetId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "cancelled" }),
-          });
+        const res = await fetch(`http://localhost:8000/my-bookings/${targetId}`, {
+          method: "DELETE",
+        });
 
-          if (res.ok) {
-            cancelledOnServer = true;
-          }
-        } catch (serverErr) {
-          console.warn("Server cancellation call notice:", serverErr);
+        if (!res.ok) {
+          throw new Error(`Failed to delete booking (${res.status} ${res.statusText})`);
         }
       }
 
-      // 2. Update local state optimistically
+      // 2. Remove from UI state
       setBookings((prev) =>
-        prev.map((b) => {
-          if (b._id === targetId || b.idempotencyKey === booking.idempotencyKey) {
-            return { ...b, status: "cancelled" };
-          }
-          return b;
+        prev.filter((b) => {
+          if (targetId && b._id) return b._id !== targetId;
+          return b.idempotencyKey !== booking.idempotencyKey;
         })
       );
 
@@ -208,11 +198,9 @@ export default function MyBookingsPage() {
         const cached = localStorage.getItem("user_recent_bookings");
         if (cached) {
           const localList: BookingPayload[] = JSON.parse(cached);
-          const updated = localList.map((b) => {
-            if (b._id === targetId || b.idempotencyKey === booking.idempotencyKey) {
-              return { ...b, status: "cancelled" as const };
-            }
-            return b;
+          const updated = localList.filter((b) => {
+            if (targetId && b._id) return b._id !== targetId;
+            return b.idempotencyKey !== booking.idempotencyKey;
           });
           localStorage.setItem("user_recent_bookings", JSON.stringify(updated));
         }
@@ -220,7 +208,7 @@ export default function MyBookingsPage() {
         console.error("Local storage update error:", cacheErr);
       }
 
-      toast.success("Booking cancelled successfully.");
+      toast.success("Booking cancelled and removed successfully.");
     } catch (err) {
       console.error("Cancellation error:", err);
       toast.error("Failed to cancel booking. Please try again.");

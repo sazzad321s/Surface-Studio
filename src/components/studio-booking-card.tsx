@@ -210,7 +210,7 @@ export default function StudioBookingCard({ studio }: StudioBookingCardProps) {
       // 5. Post to backend endpoint
       let savedSuccessfully = false;
       try {
-        const response = await fetch("http://localhost:8000/bookings", {
+        const response = await fetch("http://localhost:8000/booking", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bookingPayload),
