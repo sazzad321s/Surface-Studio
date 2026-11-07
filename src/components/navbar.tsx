@@ -16,6 +16,7 @@ export default function Navbar() {
   const isHome = pathname === "/";
   const isStudios = pathname.startsWith("/studios");
   const isMyListing = pathname.startsWith("/my-listing");
+  const isMyBookings = pathname.startsWith("/my-bookings");
 
     const {data:session} = authClient.useSession()
 
@@ -24,7 +25,10 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Explore Studios", href: "/studios" },
-    ...(user ? [{ name: "My Listing", href: "/my-listing" }] : []),
+    ...(user ? [
+      { name: "My Listing", href: "/my-listing" },
+      { name: "My Bookings", href: "/my-bookings" },
+    ] : []),
     { name: "How It Works", href: "/#how-it-works" },
     { name: "About Us", href: "/#about-us" },
   ];
@@ -60,7 +64,8 @@ export default function Navbar() {
               const active =
                 (link.href === "/" && isHome) ||
                 (link.href === "/studios" && isStudios) ||
-                (link.href === "/my-listing" && isMyListing);
+                (link.href === "/my-listing" && isMyListing) ||
+                (link.href === "/my-bookings" && isMyBookings);
 
               return (
                 <Link
@@ -136,7 +141,8 @@ export default function Navbar() {
               className={`block px-3 py-2 rounded-lg text-base font-medium ${
                 (link.href === "/" && isHome) ||
                 (link.href === "/studios" && isStudios) ||
-                (link.href === "/my-listing" && isMyListing)
+                (link.href === "/my-listing" && isMyListing) ||
+                (link.href === "/my-bookings" && isMyBookings)
                   ? "bg-zinc-100 dark:bg-zinc-800/80 text-amber-600 dark:text-amber-400 font-semibold"
                   : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-950 dark:hover:text-white"
               }`}
