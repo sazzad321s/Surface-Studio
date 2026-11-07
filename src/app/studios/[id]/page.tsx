@@ -78,18 +78,15 @@ async function StudioDetailsContent({ params }: StudioDetailsProps) {
     );
   }
 
-  const title = studio.title || studio.name || "Daylight Cyc Loft";
-  const category = studio.category || "Photo Studio";
-  const location = studio.location || "Mirpur, Dhaka";
-  const rating = studio.rating || "4.9";
-  const maxCapacity = studio.maxCapacity || 12;
-  const hourlyRate = Number(studio.hourlyRate) || 45;
-  const securityDeposit = Number(studio.securityDeposit) || 150;
-  const overview =
-    studio.overview ||
-    "A white cyclorama wall, north-facing windows and a quiet loading entrance. Good for fashion, product and portrait shoots.";
-  const imageUrl = studio.imageUrl || studio.image || "/hero.jpg";
-  const userName = studio.userName || "Maya Okafor";
+  const title = studio.title || studio.name;
+  const category = studio.category;
+  const location = studio.location;
+  const rating = studio.rating;
+  const maxCapacity = studio.maxCapacity;
+
+  const overview = studio.overview;
+  const imageUrl = studio.imageUrl || studio.image;
+  const userName = studio.userName;
 
   // Generate host initials
   const initials = userName
@@ -235,9 +232,8 @@ async function StudioDetailsContent({ params }: StudioDetailsProps) {
           {/* Right Column: Sticky Booking Widget Card (~4-5 cols) */}
           <div className="lg:col-span-4 w-full">
             <StudioBookingCard
-              hourlyRate={hourlyRate}
-              securityDeposit={securityDeposit}
-              studioTitle={title}
+              
+              studio={studio}
             />
           </div>
 

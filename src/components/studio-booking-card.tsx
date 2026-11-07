@@ -2,18 +2,15 @@
 
 import { useState, useMemo } from "react";
 import { Check, ShieldCheck, Clock, Calendar } from "lucide-react";
+import { Studio } from "@/app/studios/page";
 
-interface StudioBookingCardProps {
-  hourlyRate: number;
-  securityDeposit: number;
-  studioTitle: string;
-}
 
-export default function StudioBookingCard({
-  hourlyRate,
-  securityDeposit,
-  studioTitle,
-}: StudioBookingCardProps) {
+
+export default function StudioBookingCard({studio}:{studio:Studio}) {
+
+    const hourlyRate = Number(studio.hourlyRate);
+  const securityDeposit = Number(studio.securityDeposit);
+
   const [bookingDate, setBookingDate] = useState("2026-11-12");
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("14:00");
@@ -34,8 +31,8 @@ export default function StudioBookingCard({
     }
   }, [startTime, endTime]);
 
-  const subtotal = durationHours * hourlyRate;
-  const totalDue = subtotal + securityDeposit;
+  const subtotal = durationHours * hourlyRate
+  const totalDue = subtotal < securityDeposit ? 0 : subtotal - securityDeposit;
 
   const handleBook = () => {
     setIsBooked(true);
@@ -49,7 +46,7 @@ export default function StudioBookingCard({
       {/* Price Header */}
       <div className="flex items-baseline gap-1.5 mb-6">
         <span className="text-3xl sm:text-4xl font-extrabold text-amber-500">
-          ${hourlyRate}
+          ${studio.hourlyRate}
         </span>
         <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
           / hr
@@ -101,7 +98,7 @@ export default function StudioBookingCard({
       <div className="space-y-2 mb-6 text-sm text-zinc-600 dark:text-zinc-300">
         <div className="flex items-center justify-between">
           <span>
-            {durationHours} hours × ${hourlyRate}
+            {durationHours} hours × ${studio.hourlyRate}
           </span>
           <span className="font-medium text-zinc-900 dark:text-white">
             ${subtotal}
@@ -111,7 +108,7 @@ export default function StudioBookingCard({
         <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
           <span>Security deposit (refundable)</span>
           <span className="font-medium text-zinc-900 dark:text-zinc-300">
-            ${securityDeposit}
+            ${studio.securityDeposit}
           </span>
         </div>
 
