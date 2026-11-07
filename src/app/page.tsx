@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HeroBanner from "@/components/hero-banner";
+import TopStudiosCarousel from "@/components/top-studios-carousel";
 import { 
   Sparkles, 
   Video, 
@@ -60,6 +61,9 @@ export default function Home() {
     <main className="w-full">
       {/* Banner Section */}
       <HeroBanner />
+
+      {/* Top Rated Studios Carousel */}
+      <TopStudiosCarousel />
 
       {/* Featured Studio Categories Preview */}
       <section className="py-16 border-t border-zinc-200 dark:border-zinc-800/80 bg-[#f1f2f5] dark:bg-[#0e0e11] transition-colors duration-200">
