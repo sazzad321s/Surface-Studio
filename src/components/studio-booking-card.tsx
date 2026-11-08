@@ -101,7 +101,7 @@ export default function StudioBookingCard({ studio }: StudioBookingCardProps) {
     const token = await getTokenFromClient();
     try {
       // 1. Check server endpoint for existing user bookings
-      const res = await fetch("http://localhost:8000/bookings",{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,{
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -214,7 +214,7 @@ export default function StudioBookingCard({ studio }: StudioBookingCardProps) {
       // 5. Post to backend endpoint
       let savedSuccessfully = false;
       try {
-        const response = await fetch("http://localhost:8000/booking", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/booking`, {
           method: "POST",
           headers: { "Content-Type": "application/json",
             authorization: `Bearer ${jwtToken}`

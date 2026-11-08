@@ -38,7 +38,7 @@ export default function TopStudiosCarousel() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:8000/top-studios");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/top-studios`);
       if (!res.ok) {
         throw new Error(`Failed to fetch top studios (${res.status} ${res.statusText})`);
       }

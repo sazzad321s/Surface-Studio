@@ -71,7 +71,7 @@ export default function MyBookingsPage() {
 
     const token = await getTokenFromClient();
     try {
-      const res = await fetch(`http://localhost:8000/my-bookings/${user?.email}`,{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings/${user?.email}`,{
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -182,7 +182,7 @@ export default function MyBookingsPage() {
     try {
       // 1. Send DELETE request to server API with dynamic id
       if (targetId && !targetId.startsWith("local_")) {
-        const res = await fetch(`http://localhost:8000/my-bookings/${targetId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings/${targetId}`, {
           method: "DELETE",
           headers: {
             authorization: `Bearer ${jwtToken}`

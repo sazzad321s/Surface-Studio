@@ -44,7 +44,7 @@ async function StudioDetailsContent({ params }: StudioDetailsProps) {
   let studio = null;
 
   try {
-    const res = await fetch(`http://localhost:8000/studio/${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studio/${id}`);
     if (res.ok) {
       studio = await res.json();
     }

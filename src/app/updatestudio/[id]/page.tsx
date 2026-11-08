@@ -110,7 +110,7 @@ function UpdateStudioContent({ params }: UpdateStudioPageProps) {
      
     const loadStudio = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/studio/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studio/${id}`);
         if (!res.ok) {
           throw new Error(`Failed to load this studio (${res.status} ${res.statusText})`);
         }
@@ -186,7 +186,7 @@ function UpdateStudioContent({ params }: UpdateStudioPageProps) {
       setIsSubmitting(true);
 
       // formData holds editable fields only — host name/email are never included
-      const res = await fetch(`http://localhost:8000/studio/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studio/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", authorization: `Bearer ${token}` },
         body: JSON.stringify(formData),

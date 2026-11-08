@@ -58,7 +58,7 @@ export default function MyListingPage() {
 
     const loadMyStudios = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/studios`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studios`);
         if (!res.ok) {
           throw new Error(`Failed to fetch studios (${res.status} ${res.statusText})`);
         }
@@ -100,7 +100,7 @@ export default function MyListingPage() {
      const token = await getTokenFromClient()
     try {
       setDeletingId(studio._id);
-      const res = await fetch(`http://localhost:8000/studio/${studio._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studio/${studio._id}`, {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${token}`
