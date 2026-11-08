@@ -22,6 +22,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 
 
@@ -113,16 +114,19 @@ export default function AddStudioPage() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-
+   const token = await getTokenFromClient();
     try {
       setIsSubmitting(true);
       // -------------------------------------------------------------
       // TO SUBMIT TO MONGODB:
       // Hook your API endpoint or Server Action here, e.g.:
-      //
+      
       const res = await fetch("http://localhost:8000/add-studio", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`
+        },
         body: JSON.stringify(formData),
       });
       const data = await res.json();

@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import type { Studio } from "@/app/studios/page";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 
 
@@ -96,11 +97,14 @@ export default function MyListingPage() {
   const handleDelete = async () => {
     if (!deleteTarget || deletingId) return;
     const studio = deleteTarget;
-
+     const token = await getTokenFromClient()
     try {
       setDeletingId(studio._id);
       const res = await fetch(`http://localhost:8000/studio/${studio._id}`, {
         method: "DELETE",
+        headers: {
+          authorization: `Bearer ${token}`
+        }
       });
       if (!res.ok) {
         throw new Error(`Delete failed (${res.status} ${res.statusText})`);

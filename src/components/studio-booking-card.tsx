@@ -2,22 +2,22 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 import Link from "next/link";
 import { 
-  Check, 
-  ShieldCheck, 
+  
   Clock, 
   Calendar, 
   User, 
   Mail, 
   AlertCircle, 
   Loader2, 
-  Lock 
+
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-hot-toast";
 import type { Studio } from "@/app/studios/page";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface StudioBookingCardProps {
   studio: Studio;
@@ -98,10 +98,14 @@ export default function StudioBookingCard({ studio }: StudioBookingCardProps) {
   // Check for duplicate bookings before submitting
   const checkDuplicateBooking = async (): Promise<boolean> => {
     if (!currentUserEmail || !studio._id) return false;
-
+    const token = await getTokenFromClient();
     try {
       // 1. Check server endpoint for existing user bookings
-      const res = await fetch("http://localhost:8000/bookings");
+      const res = await fetch("http://localhost:8000/bookings",{
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
       if (res.ok) {
         const data = await res.json();
         const bookings: BookingPayload[] = Array.isArray(data) ? data : data.bookings || [];
@@ -206,13 +210,15 @@ export default function StudioBookingCard({ studio }: StudioBookingCardProps) {
       };
 
       console.log("Submitting booking with user session:", bookingPayload);
-
+         const jwtToken = await getTokenFromClient();
       // 5. Post to backend endpoint
       let savedSuccessfully = false;
       try {
         const response = await fetch("http://localhost:8000/booking", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+            authorization: `Bearer ${jwtToken}`
+           },
           body: JSON.stringify(bookingPayload),
         });
 

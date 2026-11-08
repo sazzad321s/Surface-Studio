@@ -43,6 +43,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import type { BookingPayload } from "@/components/studio-booking-card";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const REVALIDATION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -68,8 +69,13 @@ export default function MyBookingsPage() {
     let serverBookings: BookingPayload[] = [];
     let fetchSucceeded = false;
 
+    const token = await getTokenFromClient();
     try {
-      const res = await fetch(`http://localhost:8000/my-bookings/${user?.email}`);
+      const res = await fetch(`http://localhost:8000/my-bookings/${user?.email}`,{
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
       if (res.ok) {
         const data = await res.json();
         const all: BookingPayload[] = Array.isArray(data) ? data : data.bookings || [];
@@ -172,12 +178,15 @@ export default function MyBookingsPage() {
     }
 
     setCancellingId(targetId || "temp");
-
+   const jwtToken = await getTokenFromClient();
     try {
       // 1. Send DELETE request to server API with dynamic id
       if (targetId && !targetId.startsWith("local_")) {
         const res = await fetch(`http://localhost:8000/my-bookings/${targetId}`, {
           method: "DELETE",
+          headers: {
+            authorization: `Bearer ${jwtToken}`
+          }
         });
 
         if (!res.ok) {

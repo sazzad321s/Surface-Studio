@@ -22,6 +22,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 
 
@@ -103,9 +104,10 @@ function UpdateStudioContent({ params }: UpdateStudioPageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Pre-fill the form with the studio that is being edited
+  
   useEffect(() => {
     let cancelled = false;
-
+     
     const loadStudio = async () => {
       try {
         const res = await fetch(`http://localhost:8000/studio/${id}`);
@@ -179,13 +181,14 @@ function UpdateStudioContent({ params }: UpdateStudioPageProps) {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const token = await getTokenFromClient();
     try {
       setIsSubmitting(true);
 
       // formData holds editable fields only — host name/email are never included
       const res = await fetch(`http://localhost:8000/studio/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", authorization: `Bearer ${token}` },
         body: JSON.stringify(formData),
       });
 
